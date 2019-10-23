@@ -1,0 +1,5 @@
+{
+  "name": "Solidabis code challenge participation",
+  "description": "App that downloads Caesar-ciphered strings, and determines whether they contain Finnish language.",
+  "image": "heroku/java"
+}

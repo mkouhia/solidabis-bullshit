@@ -8,6 +8,7 @@ val kotlin_version: String by project
 plugins {
     application
     kotlin("jvm") version "1.3.50"
+    id("com.github.johnrengelman.shadow") version "5.1.0"
 }
 
 group = "fi.mkouhia.solidabis"
@@ -36,4 +37,14 @@ dependencies {
     implementation("io.ktor", "ktor-server-core", ktor_version)
     implementation("io.ktor", "ktor-thymeleaf", ktor_version)
     testImplementation("io.ktor", "ktor-server-tests", ktor_version)
+}
+
+tasks.withType<Jar> {
+    manifest {
+        attributes(
+            mapOf(
+                "Main-Class" to application.mainClassName
+            )
+        )
+    }
 }
