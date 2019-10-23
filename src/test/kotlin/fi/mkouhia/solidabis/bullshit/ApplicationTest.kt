@@ -1,4 +1,4 @@
-package fi.mkouhia.solidabis
+package fi.mkouhia.solidabis.bullshit
 
 import io.ktor.application.*
 import io.ktor.response.*
