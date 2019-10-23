@@ -48,3 +48,10 @@ tasks.withType<Jar> {
         )
     }
 }
+
+// Heroku
+tasks {
+    val stage by registering {
+        dependsOn("build")
+    }
+}
