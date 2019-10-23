@@ -1,6 +1,6 @@
 # solidabis-bullshit
 
-[![Heroku](https://heroku-badge.herokuapp.com/?app=obscure-springs-32806)]
+![Heroku](https://heroku-badge.herokuapp.com/?app=obscure-springs-32806)
 
 Participation in [Solidabis code challenge 2019](https://koodihaaste.solidabis.com)
 
