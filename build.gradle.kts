@@ -14,7 +14,7 @@ plugins {
 }
 
 group = "fi.mkouhia.solidabis"
-version = "0.1.0"
+version = "0.1.1"
 
 application {
     mainClassName = "io.ktor.server.netty.EngineMain"

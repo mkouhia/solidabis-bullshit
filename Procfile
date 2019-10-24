@@ -1,1 +1,1 @@
-web:    java -jar build/libs/bullshit-0.1.0.jar
+web:    java -jar build/libs/bullshit-0.1.1-all.jar
