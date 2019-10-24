@@ -2,11 +2,10 @@ package fi.mkouhia.solidabis.bullshit
 
 import io.ktor.application.*
 import io.ktor.response.*
-import io.ktor.request.*
 import io.ktor.client.*
 import io.ktor.client.engine.jetty.*
 import io.ktor.client.features.json.*
-import io.ktor.client.request.*
+import io.ktor.client.features.json.serializer.KotlinxSerializer
 import kotlinx.coroutines.*
 import io.ktor.routing.*
 import io.ktor.http.*
@@ -16,12 +15,10 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
-@Suppress("unused") // Referenced in application.conf
-@kotlin.jvm.JvmOverloads
-fun Application.module(testing: Boolean = false) {
+fun Application.module() {
     val client = HttpClient(Jetty) {
         install(JsonFeature) {
-            serializer = GsonSerializer()
+            serializer = KotlinxSerializer()
         }
     }
     runBlocking {

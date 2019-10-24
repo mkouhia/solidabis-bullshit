@@ -6,13 +6,15 @@ val ktor_version: String by project
 val kotlin_version: String by project
 
 plugins {
+    java
     application
     kotlin("jvm") version "1.3.50"
     id("com.github.johnrengelman.shadow") version "5.1.0"
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.3.50"
 }
 
 group = "fi.mkouhia.solidabis"
-version = "0.0.1-SNAPSHOT"
+version = "0.1.0"
 
 application {
     mainClassName = "io.ktor.server.netty.EngineMain"
@@ -33,11 +35,26 @@ dependencies {
     implementation("io.ktor", "ktor-client-core-jvm", ktor_version)
     implementation("io.ktor", "ktor-client-jetty", ktor_version)
     implementation("io.ktor", "ktor-client-json-jvm", ktor_version)
-    implementation("io.ktor", "ktor-client-gson", ktor_version)
+    implementation("io.ktor:ktor-serialization:$ktor_version")
+    implementation("io.ktor:ktor-client-serialization-jvm:$ktor_version")
     implementation("io.ktor", "ktor-server-core", ktor_version)
     implementation("io.ktor", "ktor-thymeleaf", ktor_version)
     testImplementation("io.ktor", "ktor-server-tests", ktor_version)
+    testImplementation("io.kotlintest:kotlintest-runner-junit5:3.3.0")
 }
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions.jvmTarget = "12"
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
+}
+
+
 
 tasks.withType<Jar> {
     manifest {

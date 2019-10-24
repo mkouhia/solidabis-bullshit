@@ -1,25 +1,16 @@
 package fi.mkouhia.solidabis.bullshit
 
-import io.ktor.application.*
-import io.ktor.response.*
-import io.ktor.request.*
-import io.ktor.client.*
-import io.ktor.client.engine.jetty.*
-import io.ktor.client.features.json.*
-import io.ktor.client.request.*
-import kotlinx.coroutines.*
-import io.ktor.routing.*
-import io.ktor.http.*
-import io.ktor.thymeleaf.Thymeleaf
-import io.ktor.thymeleaf.ThymeleafContent
-import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver
-import kotlin.test.*
-import io.ktor.server.testing.*
+import io.kotlintest.specs.AnnotationSpec
+import io.ktor.http.HttpMethod
+import io.ktor.http.HttpStatusCode
+import io.ktor.server.testing.handleRequest
+import io.ktor.server.testing.withTestApplication
+import kotlin.test.assertEquals
 
-class ApplicationTest {
+class ApplicationTest: AnnotationSpec() {
     @Test
     fun testRoot() {
-        withTestApplication({ module(testing = true) }) {
+        withTestApplication({ module() }) {
             handleRequest(HttpMethod.Get, "/").apply {
                 assertEquals(HttpStatusCode.OK, response.status())
                 assertEquals("HELLO WORLD!", response.content)
