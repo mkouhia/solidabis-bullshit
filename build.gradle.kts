@@ -66,9 +66,12 @@ tasks.withType<Jar> {
     }
 }
 
-// Heroku
-tasks {
-    val stage by registering {
-        dependsOn("build")
-    }
+// Heroku deployment with shadowJar
+tasks.register("stage") {
+    dependsOn("clean", "shadowJar")
+}
+
+// Do not include version to shadowJar - no need to edit Procfile when deploying to Heroku
+tasks.shadowJar {
+    archiveVersion.set("")
 }

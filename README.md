@@ -12,7 +12,6 @@ Participation in [Solidabis code challenge 2019](https://koodihaaste.solidabis.c
     - For Heroku, this is already specified in [system.properties]
 - Test Heroku with `heroku local`
 - Increment version in [build.gradle.kts]
-    - Edit [Procfile] to contain same version
 - Git commit
 - Push to GitHub master branch; Heroku automatic deployment takes care of the rest
     - Alternatively, push directly to heroku: `git push heroku master`
