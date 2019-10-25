@@ -13,6 +13,20 @@ class BullshitConnection(val bullshits: List<Bullshit>) {
         return "BullshitConnection(bullshits=$bullshits)"
     }
 
+    val notBullshits: List<Bullshit> by lazy {
+        bullshits
+            .filter { it.isLikelyFinnish }
+            .toList()
+            .sortedBy { -it.finnishProbability }
+    }
+
+    val actualBullshits: List<Bullshit> by lazy {
+        bullshits
+            .filter { !it.isLikelyFinnish }
+            .toList()
+            .sortedBy { -it.finnishProbability }
+    }
+
     companion object {
 
         suspend fun fromSecret(secret: Secret, client: HttpClient): BullshitConnection {

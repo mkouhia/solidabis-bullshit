@@ -1,13 +1,10 @@
 package fi.mkouhia.solidabis.bullshit
 
-import fi.mkouhia.solidabis.bullshit.FrequencyDistribution.Companion.FinnishCharacters
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.jetty.Jetty
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
 import kotlinx.coroutines.runBlocking
-import java.util.stream.Collectors
-import java.util.stream.IntStream
 
 fun main(args: Array<String>) {
     val secretUrl = "https://koodihaaste-api.solidabis.com/secret"
@@ -22,31 +19,16 @@ fun main(args: Array<String>) {
         }
     }
 
-
-    println(bullshitConnection.bullshits[0])
-    val bs = bullshitConnection.bullshits[0]
-    val msg = bs.message
-    val bs2 = Bullshit(msg)
-
-
-    println(bs2.bestCandidate())
-
-    bullshitConnection.bullshits
-        .map { it.bestCandidate() }
-        .toList()
-        .sortedBy { -it.monogramPValue }
+    println("# No bullshit\n")
+    bullshitConnection.notBullshits
         .forEach {
-            println("${it.avgPValue} ${it.monogramPValue} ${it.syllableTypePValue} ${it.content}")
+            println("%5.1f %% : ${it.bestCandidate.content}".format(100 * it.bestCandidate.finnishProbability))
         }
 
-//    println(bestCandidate(bullshitConnection.bullshits[0].candidates).avgPValue)
+    println("\n\n# Bullshit\n")
+    bullshitConnection.actualBullshits
+        .forEach {
+            println("%5.1f %% : ${it.bestCandidate.content}".format(100 * it.bestCandidate.finnishProbability))
+        }
 
-    println(FinnishCharacters.frequency)
-
-//    val s = bullshitConnection.bullshits
-//        .map {
-//            bestCandidate(it.candidates)
-//        }
-//        .map { it.syllableTypes() }
-//    println(s)
 }

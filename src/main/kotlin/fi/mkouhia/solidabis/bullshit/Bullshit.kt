@@ -28,20 +28,20 @@ class Bullshit(val message: String) {
         return "Bullshit(message='$message')"
     }
 
-    /**
-     * TODO get best performing candidate
-     *
-     * @return best candidate, by lowest monogram P value
-     */
-    fun bestCandidate(): Candidate {
-        return candidates
+    /** Best candidate, by highest probability of being Finnish */
+    val bestCandidate: Candidate by lazy {
+        candidates
             .map {
-                it to it.monogramPValue
+                it to it.finnishProbability
             }
-            .toList()
             .sortedBy { (_, value) -> -value }[0]
             .first
     }
+
+    /** Best candidate is likely to be Finnish */
+    val isLikelyFinnish: Boolean by lazy { bestCandidate.isLikelyFinnish }
+    /** Probability of best candidate of being Finnish */
+    val finnishProbability: Double by lazy { bestCandidate.finnishProbability }
 
 
     /**
@@ -72,7 +72,7 @@ class Bullshit(val message: String) {
      * @param nChars number of characters forward
      * @return resulting character
      */
-    fun rotateChar(c: Char, nChars: Int): Char {
+    private fun rotateChar(c: Char, nChars: Int): Char {
         val charInd = when (c.toLowerCase()) {
             in 'a'..'z' -> c.toLowerCase() - 'a'
             'å' -> 26
@@ -94,6 +94,21 @@ class Bullshit(val message: String) {
         }
         return if (c.isUpperCase()) newChar.toUpperCase() else newChar
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Bullshit
+
+        if (message != other.message) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return message.hashCode()
+    }
 }
 
 /**
@@ -102,7 +117,7 @@ class Bullshit(val message: String) {
 class Candidate(val content: String) {
 
     override fun toString(): String {
-        return "Candidate(message='$content')"
+        return "Candidate(content='$content')"
     }
 
     /** List of words in the candidate string */
@@ -115,17 +130,28 @@ class Candidate(val content: String) {
 
     /** P-value that character distribution corresponds to Finnish */
     val monogramPValue: Double by lazy {
-        ChiSquared(FinnishCharacters, thisLetterCounts(), 1.0).pValue()
+        ChiSquared(FinnishCharacters, thisLetterCounts(), 0.1).pValue()
     }
 
     /** P-value that syllable type distribution corresponds to Finnish */
     val syllableTypePValue: Double by lazy {
-        ChiSquared(FinnishSyllables, syllableTypes(), 1.0).pValue()
+        ChiSquared(FinnishSyllables, syllableTypes(), 0.1).pValue()
     }
 
-    val avgPValue: Double by lazy {
-        (monogramPValue + syllableTypePValue) / 2
-    }
+    /**
+     * Declare if candidate is likely Finnish language
+     *
+     * TODO create better statistics
+     */
+    val isLikelyFinnish: Boolean by lazy { monogramPValue > 0.05 }
+
+    /**
+     * Probability of being Finnish language
+     *
+     * TODO create better statistics
+     */
+    val finnishProbability: Double by lazy { monogramPValue }
+
 
     /** Count letters in content */
     private fun thisLetterCounts(): Map<Char, Int> = content.toLowerCase().replace(Characters.notLetter, "")
@@ -147,4 +173,21 @@ class Candidate(val content: String) {
             }
             .groupingBy { it }.eachCount()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Candidate
+
+        if (content != other.content) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return content.hashCode()
+    }
+
+
 }
