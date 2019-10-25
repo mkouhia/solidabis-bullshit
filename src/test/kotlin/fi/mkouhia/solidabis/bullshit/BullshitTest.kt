@@ -1,6 +1,7 @@
 package fi.mkouhia.solidabis.bullshit
 
 import io.kotlintest.data.forall
+import io.kotlintest.inspectors.forAll
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.StringSpec
 import io.kotlintest.tables.row
@@ -43,6 +44,40 @@ internal class BullshitTest: StringSpec({
 
     "Bullshit candidate array size" {
         Bullshit("aa").candidates.size shouldBe 29
+    }
+
+    "Same content bullshits are equal" {
+        Bullshit("foo") shouldBe Bullshit("foo")
+    }
+
+    "Finnish sentences are recognized as likely Finnish" {
+        listOf(
+            Bullshit("Olen omena, olen pyöreä omena"),
+            Bullshit("Hopeinen kuu luo merelle siltaa, ei tulla koskaan voisi kai tällaista iltaa")
+        ).forAll {
+            it.isLikelyFinnish shouldBe true
+        }
+    }
+
+    "Non-Finnish sentences are recognized as likely not Finnish" {
+        listOf(
+            Bullshit("foo santeohusteoa aosetua oaseta asote ua oaestueoa aoeurga ej."),
+            Bullshit("asd saoe lkar crdcgbok saeu xntbag sacuoa asoueh asoeucbka aoexb")
+        ).forAll {
+            it.isLikelyFinnish shouldBe false
+        }
+    }
+
+    "ROT-13 Finnish sentences are recognized as likely Finnish" {
+        listOf(
+            Bullshit("Olen omena, olen pyöreä omena"),
+            Bullshit("Hopeinen kuu luo merelle siltaa, ei tulla koskaan voisi kai tällaista iltaa")
+        ).map {
+            val msg: String = it.candidates[13].content
+            Bullshit(msg)
+        }.forAll {
+            it.isLikelyFinnish shouldBe true
+        }
     }
 
 })
