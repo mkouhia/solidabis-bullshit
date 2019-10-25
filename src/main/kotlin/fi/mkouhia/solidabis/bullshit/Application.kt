@@ -13,6 +13,11 @@ import io.ktor.thymeleaf.Thymeleaf
 import io.ktor.thymeleaf.ThymeleafContent
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver
 
+object Settings {
+    val secretUrl = "https://koodihaaste-api.solidabis.com/secret"
+
+}
+
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
 fun Application.module() {
@@ -21,16 +26,10 @@ fun Application.module() {
             serializer = KotlinxSerializer()
         }
     }
-    runBlocking {
-        // Sample for making a HTTP Client request
-        /*
-        val message = client.post<JsonSampleClass> {
-            url("http://127.0.0.1:8080/path/to/endpoint")
-            contentType(ContentType.Application.Json)
-            body = JsonSampleClass(hello = "world")
-        }
-        */
+    val bullshitConnection = runBlocking {
+        BullshitConnection.fromSecretUrl(Settings.secretUrl, client)
     }
+
 
     install(Thymeleaf) {
         setTemplateResolver(ClassLoaderTemplateResolver().apply {
@@ -42,7 +41,10 @@ fun Application.module() {
 
     routing {
         get("/") {
-            call.respondText("HELLO WORLD!", contentType = ContentType.Text.Plain)
+            call.respondText(
+                "Bullshits:\n" + bullshitConnection.bullshits.map { it.message }.joinToString("\n"),
+                contentType = ContentType.Text.Plain
+            )
         }
 
         get("/html-thymeleaf") {
