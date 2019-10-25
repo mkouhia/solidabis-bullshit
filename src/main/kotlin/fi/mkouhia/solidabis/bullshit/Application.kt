@@ -41,15 +41,9 @@ fun Application.module() {
 
     routing {
         get("/") {
-            call.respondText(
-                "Bullshits:\n" + bullshitConnection.bullshits.map { it.message }.joinToString("\n"),
-                contentType = ContentType.Text.Plain
-            )
+            call.respond(ThymeleafContent("index", mapOf("bullshitConnection" to bullshitConnection)))
         }
 
-        get("/html-thymeleaf") {
-            call.respond(ThymeleafContent("index", mapOf("user" to ThymeleafUser(1, "user1"))))
-        }
     }
 }
 

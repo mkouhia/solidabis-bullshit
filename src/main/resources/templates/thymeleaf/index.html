@@ -5,6 +5,31 @@
 <title>Title</title>
 </head>
 <body>
-<span th:text="${user.name}"></span>
+
+<h2>No bullshit</h2>
+<table>
+    <tr>
+        <th>Lause suomeksi</th>
+        <th>Suomenkielisyyden todennäköisyys</th>
+    </tr>
+    <tr th:each="bs : ${bullshitConnection.notBullshits}">
+        <td th:text="${bs.bestCandidate.content}"></td>
+        <td th:text="${#numbers.formatDecimal(100 * bs.bestCandidate.finnishProbability, 1, 1, 'COMMA')}"></td>
+    </tr>
+</table>
+
+
+<h2>Bullshit</h2>
+<table>
+    <tr>
+        <th>Lause alkuperäismuodossaan</th>
+        <th>Suomenkielisyyden todennäköisyys</th>
+    </tr>
+    <tr th:each="bsa : ${bullshitConnection.actualBullshits}">
+        <td th:text="${bsa.message}"></td>
+        <td th:text="${#numbers.formatDecimal(100 * bsa.bestCandidate.finnishProbability, 1, 1, 'COMMA')}"></td>
+    </tr>
+</table>
+
 </body>
 </html>
