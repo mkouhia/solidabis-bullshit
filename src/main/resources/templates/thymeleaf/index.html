@@ -1,35 +1,84 @@
-<!DOCTYPE html >
-<html xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Title</title>
+
+    <!-- Basic Page Needs
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <meta charset="utf-8">
+    <title>Solidabis koodihaaste 2019 - mkouhia</title>
+    <meta name="description" content="Participation in Solidabis code challenge">
+    <meta name="author" content="Mikko Kouhia">
+
+    <!-- Mobile Specific Metas
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- FONT
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+    <!-- CSS
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link rel="stylesheet" href="static/normalize.css">
+    <link rel="stylesheet" href="static/skeleton.css">
+    <link rel="stylesheet" href="static/custom.css">
+
+    <!-- Favicon
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+<!--    <link rel="icon" type="image/png" href="images/favicon.png">-->
+
 </head>
 <body>
 
-<h2>No bullshit</h2>
-<table>
-    <tr>
-        <th>Lause suomeksi</th>
-        <th>Suomenkielisyyden todennäköisyys</th>
-    </tr>
-    <tr th:each="bs : ${bullshitConnection.notBullshits}">
-        <td th:text="${bs.bestCandidate.content}"></td>
-        <td th:text="${#numbers.formatDecimal(100 * bs.bestCandidate.finnishProbability, 1, 1, 'COMMA')}"></td>
-    </tr>
-</table>
+<!-- Primary Page Layout
+–––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
+<div class="container">
 
-<h2>Bullshit</h2>
-<table>
-    <tr>
-        <th>Lause alkuperäismuodossaan</th>
-        <th>Suomenkielisyyden todennäköisyys</th>
-    </tr>
-    <tr th:each="bsa : ${bullshitConnection.actualBullshits}">
-        <td th:text="${bsa.message}"></td>
-        <td th:text="${#numbers.formatDecimal(100 * bsa.bestCandidate.finnishProbability, 1, 1, 'COMMA')}"></td>
-    </tr>
-</table>
+    <div class="section">
+        <h2>Solidabis koodihaaste 2019</h2>
+        <p></p>
+    </div>
 
+    <div class="section">
+        <h3>No bullshit</h3>
+        <table class="u-full-width condensed">
+            <thead>
+            <tr>
+                <th>Lause suomeksi</th>
+                <th>Todennäköisyys</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr th:each="bs : ${bullshitConnection.notBullshits}">
+                    <td th:text="${bs.bestCandidate.content}"></td>
+                    <td th:text="${#numbers.formatDecimal(100 * bs.bestCandidate.finnishProbability, 1, 1, 'COMMA')} + '%'"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section">
+        <h3>Bullshit</h3>
+        <table class="u-full-width condensed">
+            <thead>
+            <tr>
+                <th>Lause alkuperäismuodossaan</th>
+                <th>Todennäköisyys</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr th:each="bsa : ${bullshitConnection.actualBullshits}">
+                    <td th:text="${bsa.message}"></td>
+                    <td th:text="${#numbers.formatDecimal(100 * bsa.bestCandidate.finnishProbability, 1, 1, 'COMMA')} + '%'"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 </body>
 </html>

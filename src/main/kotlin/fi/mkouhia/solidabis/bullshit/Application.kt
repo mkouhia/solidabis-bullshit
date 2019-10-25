@@ -8,7 +8,8 @@ import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.KotlinxSerializer
 import kotlinx.coroutines.*
 import io.ktor.routing.*
-import io.ktor.http.*
+import io.ktor.http.content.resources
+import io.ktor.http.content.static
 import io.ktor.thymeleaf.Thymeleaf
 import io.ktor.thymeleaf.ThymeleafContent
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver
@@ -40,6 +41,10 @@ fun Application.module() {
     }
 
     routing {
+        static("/static") {
+            resources("static")
+        }
+
         get("/") {
             call.respond(ThymeleafContent("index", mapOf("bullshitConnection" to bullshitConnection)))
         }
