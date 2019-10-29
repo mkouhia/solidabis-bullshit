@@ -4,7 +4,7 @@ import io.kotlintest.matchers.string.shouldHaveMinLength
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.StringSpec
 import io.ktor.client.HttpClient
-import io.ktor.client.engine.jetty.Jetty
+import io.ktor.client.engine.apache.Apache
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
 import io.ktor.client.features.json.JsonFeature
@@ -21,7 +21,7 @@ internal class SecretTest : StringSpec() {
     private val secretUrl = "https://koodihaaste-api.solidabis.com/secret"
 
     private val client = autoClose(
-        HttpClient(Jetty) {
+        HttpClient(Apache) {
             install(JsonFeature) {
                 serializer = KotlinxSerializer()
             }

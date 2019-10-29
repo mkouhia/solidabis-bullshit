@@ -33,7 +33,7 @@ dependencies {
     implementation("ch.qos.logback", "logback-classic", logback_version)
     implementation("io.ktor", "ktor-client-core", ktor_version)
     implementation("io.ktor", "ktor-client-core-jvm", ktor_version)
-    implementation("io.ktor", "ktor-client-jetty", ktor_version)
+    implementation("io.ktor", "ktor-client-apache", ktor_version)
     implementation("io.ktor", "ktor-client-json-jvm", ktor_version)
     implementation("io.ktor:ktor-serialization:$ktor_version")
     implementation("io.ktor:ktor-client-serialization-jvm:$ktor_version")

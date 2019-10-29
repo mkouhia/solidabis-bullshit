@@ -1,7 +1,7 @@
 package fi.mkouhia.solidabis.bullshit
 
 import io.ktor.client.HttpClient
-import io.ktor.client.engine.jetty.Jetty
+import io.ktor.client.engine.apache.Apache
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
 import kotlinx.coroutines.runBlocking
@@ -10,7 +10,7 @@ fun main(args: Array<String>) {
     val secretUrl = "https://koodihaaste-api.solidabis.com/secret"
 
     val bullshitConnection = runBlocking {
-        HttpClient(Jetty) {
+        HttpClient(Apache) {
             install(JsonFeature) {
                 serializer = KotlinxSerializer()
             }

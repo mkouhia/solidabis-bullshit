@@ -6,7 +6,7 @@ import io.kotlintest.matchers.collections.shouldNotBeEmpty
 import io.kotlintest.matchers.string.shouldHaveMinLength
 import io.kotlintest.specs.StringSpec
 import io.ktor.client.HttpClient
-import io.ktor.client.engine.jetty.Jetty
+import io.ktor.client.engine.apache.Apache
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
 import io.ktor.client.features.json.JsonFeature
@@ -18,7 +18,7 @@ import kotlin.test.assertFails
 
 internal class BullshitConnectionTest : StringSpec() {
 
-    private val client = HttpClient(Jetty) {
+    private val client = HttpClient(Apache) {
         install(JsonFeature) {
             serializer = KotlinxSerializer()
         }

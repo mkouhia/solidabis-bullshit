@@ -3,7 +3,7 @@ package fi.mkouhia.solidabis.bullshit
 import io.ktor.application.*
 import io.ktor.response.*
 import io.ktor.client.*
-import io.ktor.client.engine.jetty.*
+import io.ktor.client.engine.apache.Apache
 import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.KotlinxSerializer
 import kotlinx.coroutines.*
@@ -22,7 +22,7 @@ object Settings {
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
 fun Application.module() {
-    val client = HttpClient(Jetty) {
+    val client = HttpClient(Apache) {
         install(JsonFeature) {
             serializer = KotlinxSerializer()
         }
